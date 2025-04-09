@@ -1,0 +1,1 @@
+# Hello, journey to javascript with small projects.

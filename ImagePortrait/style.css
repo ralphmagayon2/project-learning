@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    box-sizing: border-box;
+}
+
+p {
+    border-radius: 5px;
+    font-size: 12px;
+    line-height: 8px;
+    text-align: justify;
+    background-image: url(Ghost.jpg);
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-clip: unset;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0);
+}
