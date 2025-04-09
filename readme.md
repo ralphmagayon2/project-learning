@@ -1,1 +1,1 @@
-# Hello, journey to javascript with small projects.
+# Hello, journey to html, css, javascript with small projects.
