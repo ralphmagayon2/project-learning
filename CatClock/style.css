@@ -78,15 +78,6 @@ blockquote {
 blockquote:before { content: '"'; }
 blockquote:after { content: '"'; }
 
-
-#lolcat {
-    margin: 0 auto;
-    -webkit-border-radius: 100px;
-    -moz-border-radius: 100px;
-    border-radius: 10px;
-    border: 10px solid #222;
-}
-
 #timeContainer {
     display: flex;
     width: 500px;
