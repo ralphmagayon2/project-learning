@@ -51,6 +51,7 @@ var updateClock = function() {
 
     if (time == partytime) {
         image = "img/partyTime.jpg";
+        messageText = "Let's Party!"
     }
     else if (time == wakeuptime) {
         image = "img/cat1.jpg";
@@ -74,7 +75,7 @@ var updateClock = function() {
     }
     else {
         image = "img/lolcat.jpg";
-        messageText = "Just chillin'...";
+        messageText = "Good Afternoon! Just chillin...";
     }
 
     console.log(messageText);

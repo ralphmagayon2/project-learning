@@ -73,7 +73,7 @@ blockquote {
     bottom: 0;
     margin-bottom: 25px;
     color: #fff;
-    -webkit-text-stroke: .5px black
+    -webkit-text-stroke: .5px black;
 }
 
 blockquote:before { content: '"'; }
