@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #60B5FF;
+}
+
+body {
+    font: 14px/26px 'Bungee', Helvetica, Arial, sans-serif;
+    color: #222;
+    margin: 0px;
+    padding: 0px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page {
+    width: 80%;
+    max-width: 960px;
+    margin: 50px auto;
+    text-align: center;
+    background-color: #f16059;
+    border: 5px;
+}
+
+header {
+    font-size: 1.5rem;
+    line-height: 3rem;
+    text-align: center;
+}
+
+h4 {
+    font-size: 1.3125rem;
+    font-family: 'Bungee', cursive;
+    text-align: center;
+    padding: 20px 0 20px 0;
+}
+
+#clock {
+    font-size: 2.25rem;
+    display: block;
+    padding: 5px 0px;
+}
+
+h1, h2, h3, h6 {
+    font-family: 'Bungee Shade', cursive;
+}
+
+.imgContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0 20px 0;
+    width: 500px;
+}
+
+
+#lolcatImage {
+    border-radius: 5px;
+}
+
+blockquote {
+    align-self: center;
+    position: absolute;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.5rem;
+    text-align: center;
+    bottom: 0;
+    margin-bottom: 25px;
+    color: #fff;
+    -webkit-text-stroke: .5px black
+}
+
+blockquote:before { content: '"'; }
+blockquote:after { content: '"'; }
+
+
+#lolcat {
+    margin: 0 auto;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 10px;
+    border: 10px solid #222;
+}
+
+#timeContainer {
+    display: flex;
+    width: 500px;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0px 5px 0;
+}
+
+#wakeUpTimeSelector, #lunchTimeSelector, #napTimeSelector {
+    padding: 10px 0;
+}
+
+label {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    font-size: 1rem;
+    font-weight: 900;
+    margin-right: 10px;
+}
+
+#partyTimeButton {
+    background-color: #1c1f2b;
+    width: 500px;
+    font-family: 'Bungee', cursive;
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 0;
+    margin-top: 20px;
+    cursor: pointer;
+    position: relative;
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+#partyTimeButton::after, #partyTimeButton::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), rgb(255, 19, 19), rgb(255, 255, 27), rgb(255, 185, 56), rgb(35, 35, 255), lightgreen, rgb(255, 41, 255), rgb(255, 19, 19));
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 3px;
+    border-radius: 10px;
+    animation: 3s spin linear infinite;
+}
+
+#partyTimeButton::before {
+    filter: blur(1.5rem);
+    opacity: 0.5;
+}
+
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    }
+    to {
+        --angle: 360deg;
+    }
+}
+
+
+footer p {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-family: 'Bungee Shade', cursive;
+    text-align: center;
+    font-weight: 700;
+    margin: 20px 0 20px 0;
+}
