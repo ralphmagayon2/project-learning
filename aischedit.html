@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AISched IT - DHVSU-CCS Scheduling System</title>
+  <style>
+    :root {
+      --primary: #1d4ed8;
+      --primary-light: #3b82f6;
+      --primary-dark: #1e40af;
+      --secondary: #64748b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --light: #f1f5f9;
+      --dark: #0f172a;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --dhvsu-color: #0e4c92;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    body {
+      background-color: var(--gray-100);
+      color: var(--gray-800);
+    }
+    
+    header {
+      background-color: var(--dhvsu-color);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+    
+    .logo-icon {
+      margin-right: 0.75rem;
+      font-size: 1.5rem;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin-left: 1.5rem;
+    }
+    
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+      padding: 0.5rem 0;
+    }
+    
+    nav ul li a:hover {
+      opacity: 0.8;
+      border-bottom: 2px solid white;
+    }
+    
+    .user-menu {
+      display: flex;
+      align-items: center;
+    }
+    
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--primary-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 1rem;
+      cursor: pointer;
+      color: white;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    
+    .dashboard {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2rem;
+    }
+    
+    .sidebar {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-menu li a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--gray-700);
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    
+    .sidebar-menu li a:hover {
+      background-color: var(--gray-100);
+      color: var(--primary);
+    }
+    
+    .sidebar-menu li a.active {
+      background-color: var(--dhvsu-color);
+      color: white;
+    }
+    
+    .sidebar-menu-icon {
+      margin-right: 0.75rem;
+    }
+    
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--gray-800);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    
+    .stat-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .stat-title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--gray-500);
+    }
+    
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+    
+    .stat-icon.blue {
+      background-color: var(--dhvsu-color);
+    }
+    
+    .stat-icon.green {
+      background-color: var(--success);
+    }
+    
+    .stat-icon.orange {
+      background-color: var(--warning);
+    }
+    
+    .stat-icon.red {
+      background-color: var(--danger);
+    }
+    
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-description {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+    
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .button {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      font-size: 0.875rem;
+    }
+    
+    .button-primary {
+      background-color: var(--dhvsu-color);
+      color: white;
+    }
+    
+    .button-primary:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .button-outline {
+      background-color: transparent;
+      color: var(--dhvsu-color);
+      border: 1px solid var(--dhvsu-color);
+    }
+    
+    .button-outline:hover {
+      background-color: var(--dhvsu-color);
+      color: white;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    
+    th {
+      background-color: var(--gray-100);
+      font-weight: 500;
+      color: var(--gray-700);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    td {
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .status {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .status-success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    
+    .status-warning {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+    
+    .status-danger {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+    
+    .chart-container {
+      height: 300px;
+      margin-top: 1rem;
+    }
+    
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .filter-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .filter-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--gray-700);
+    }
+    
+    .select {
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--gray-300);
+      background-color: white;
+      font-size: 0.875rem;
+      color: var(--gray-800);
+      min-width: 150px;
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .quick-action-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      height: 160px;
+    }
+    
+    .quick-action-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .quick-action-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--dhvsu-color);
+      color: white;
+      margin-bottom: 0.75rem;
+    }
+    
+    .quick-action-title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-align: center;
+    }
+    
+    .optimization-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    
+    .optimization-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dhvsu-color);
+    }
+    
+    .optimization-label {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+      text-align: center;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: var(--gray-200);
+      border-radius: 4px;
+      margin: 0.5rem 0;
+      overflow: hidden;
+    }
+    
+    .progress {
+      height: 100%;
+      background-color: var(--dhvsu-color);
+      border-radius: 4px;
+    }
+    
+    .optimization-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 1rem;
+    }
+    
+    .optimization-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .optimization-stat-value {
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+    
+    .optimization-stat-label {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+    
+    .search-container {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--gray-300);
+      border-radius: 4px 0 0 4px;
+      font-size: 0.875rem;
+    }
+    
+    .search-button {
+      padding: 0.5rem 1rem;
+      background-color: var(--dhvsu-color);
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
+
+    .tag-blue {
+      background-color: rgba(29, 78, 216, 0.1);
+      color: var(--primary);
+    }
+
+    .tag-green {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .ai-suggestion {
+      border-left: 4px solid var(--dhvsu-color);
+      padding-left: 1rem;
+      margin-top: 1rem;
+    }
+
+    .ai-suggestion-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .ai-icon {
+      color: var(--dhvsu-color);
+    }
+
+    .ai-suggestion-title {
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    .ai-suggestion-text {
+      color: var(--gray-600);
+      font-size: 0.875rem;
+    }
+
+    .conflict-resolution {
+      background-color: rgba(245, 158, 11, 0.05);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .conflict-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .conflict-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--warning);
+    }
+
+    .conflict-options {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .conflict-details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+    }
+
+    .conflict-item {
+      display: flex;
+      flex-direction: column;
+      padding: 0.5rem;
+      border-radius: 4px;
+      background-color: white;
+      width: 48%;
+    }
+
+    .conflict-item-header {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .conflict-item-details {
+      color: var(--gray-600);
+      font-size: 0.75rem;
+    }
+    
+    .welcome-banner {
+      background-color: var(--dhvsu-color);
+      color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .welcome-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .welcome-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+    }
+    
+    .banner-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .banner-button-primary {
+      padding: 0.5rem 1.5rem;
+      background-color: white;
+      color: var(--dhvsu-color);
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .banner-button-primary:hover {
+      background-color: var(--gray-100);
+    }
+    
+    .banner-button-secondary {
+      padding: 0.5rem 1.5rem;
+      background-color: transparent;
+      color: white;
+      border: 1px solid white;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .banner-button-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    @media (max-width: 992px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        display: none;
+      }
+      
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+      
+      .quick-actions {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+      
+      .welcome-banner {
+        padding: 1.5rem;
+      }
+      
+      .welcome-title {
+        font-size: 1.5rem;
+      }
+      
+      .banner-buttons {
+        flex-direction: column;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .header-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .user-menu {
+        width: 100%;
+        justify-content: flex-end;
+      }
+      
+      .filters {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <div class="logo-icon">🧠</div>
+        <span>AISched IT</span>
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Dashboard</a></li>
+          <li><a href="#">Scheduler</a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Faculty</a></li>
+          <li><a href="#">Rooms</a></li>
+        </ul>
+      </nav>
+      
+      <div class="user-menu">
+        <span>DHVSU Admin</span>
+        <div class="user-avatar">A</div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="welcome-banner">
+      <h1 class="welcome-title">Welcome to AISched IT</h1>
+      <p class="welcome-subtitle">AI-Powered Scheduling System for DHVSU-CCS, optimizing space utilization and faculty workload distribution</p>
+      <div class="banner-buttons">
+        <button class="banner-button-primary">Generate Optimal Schedule</button>
+        <button class="banner-button-secondary">View Tutorial</button>
+      </div>
+    </div>
+    
+    <div class="dashboard">
+      <div class="sidebar">
+        <ul class="sidebar-menu">
+          <li><a href="#" class="active"><span class="sidebar-menu-icon">📊</span> Dashboard</a></li>
+          <li><a href="#"><span class="sidebar-menu-icon">🧠</span> AI Scheduler</a></li>
+          <li><a href="#"><span class="sidebar-menu-icon">📈</span> Analytics</a></li>
+          <li><a href="#"><span class="sidebar-menu-icon">👨‍🏫</span> Faculty Management</a></li>
+          <li><a href="#"><span class="sidebar-menu-icon">🏫</span> Room Management</a></li>
+          <li><a href="#"><span class="sidebar-menu-icon">📚</span> Courses</a></li>
+          <li><a href="#"><span class="sidebar-menu-icon">👥</span> Students</a></li>
+          <li><a href="#"><span class="sidebar-menu-icon">🔔</span> Notifications</a></li>
+          <li><a href="#"><span class="sidebar-menu-icon">📋</span> Reports</a></li>
+          <li><a href="#"><span class="sidebar-menu-icon">⚙️</span> Settings</a></li>
+        </ul>
+      </div>
+      
+      <div class="main-content">
+        <div>
+          <h1 class="section-title">Dashboard Overview</h1>
+          
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Current System Status</h3>
+              <div class="card-actions">
+                <button class="button button-outline">Refresh</button>
+              </div>
+            </div>
+            
+            <div class="optimization-score">
+              <div class="optimization-value">92%</div>
+              <div class="optimization-label">Overall Optimization Score</div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 92%;"></div>
+              </div>
+              
+              <div class="optimization-stats">
+                <div class="optimization-stat">
+                  <div class="optimization-stat-value">96%</div>
+                  <div class="optimization-stat-label">Space Utilization</div>
+                </div>
+                <div class="optimization-stat">
+                  <div class="optimization-stat-value">94%</div>
+                  <div class="optimization-stat-label">Faculty Workload</div>
+                </div>
+                <div class="optimization-stat">
+                  <div class="optimization-stat-value">87%</div>
+                  <div class="optimization-stat-label">Student Satisfaction</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="ai-suggestion">
+              <div class="ai-suggestion-header">
+                <div class="ai-icon">🧠</div>
+                <div class="ai-suggestion-title">AI Insight</div>
+              </div>
+              <div class="ai-suggestion-text">
+                Your current schedule has improved by 8% compared to last semester. Consider implementing the suggested optimizations to achieve a potential 98% optimization score.
+              </div>
+            </div>
+          </div>
+          
+          <div class="quick-actions">
+            <div class="quick-action-card">
+              <div class="quick-action-icon">🧠</div>
+              <div class="quick-action-title">Generate AI Schedule</div>
+            </div>
+            <div class="quick-action-card">
+              <div class="quick-action-icon">🔄</div>
+              <div class="quick-action-title">Optimize Faculty Workload</div>
+            </div>
+            <div class="quick-action-card">
+              <div class="quick-action-icon">🏫</div>
+              <div class="quick-action-title">Space Utilization</div>
+            </div>
+            <div class="quick-action-card">
+              <div class="quick-action-icon">🔍</div>
+              <div class="quick-action-title">Find Available Rooms</div>
+            </div>
+            <div class="quick-action-card">
+              <div class="quick-action-icon">⚠️</div>
+              <div class="quick-action-title">Resolve Conflicts</div>
+            </div>
+            <div class="quick-action-card">
+              <div class="quick-action-icon">📊</div>
+              <div class="quick-action-title">View Analytics</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Space Utilization Analysis</h3>
+              <div class="card-actions">
+                <button class="button button-outline">Filter</button>
+                <button class="button button-primary">Export</button>
+              </div>
+            </div>
+            <div class="filters">
+              <div class="filter-item">
+                <span class="filter-label">Building:</span>
+                <select class="select">
+                  <option>All CCS Buildings</option>
+                  <option>CCS Main Building</option>
+                  <option>CCS Laboratory Complex</option>
+                  <option>IT Research Center</option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <span class="filter-label">Day:</span>
+                <select class="select">
+                  <option>All Days</option>
+                  <option>Monday</option>
+                  <option>Tuesday</option>
+                  <option>Wednesday</option>
+                  <option>Thursday</option>
+                  <option>Friday</option>
+                  <option>Saturday</option>
+                </select>
+              </div>
+            </div>
+            <div class="chart-container">
+              <!-- Placeholder for chart - would be replaced with actual chart in production -->
+              <div style="width: 100%; height: 100%; background-color: #f1f5f9; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #64748b;">
+                Space Utilization Heatmap
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Faculty Workload Distribution</h3>
+              <div class="card-actions">
+                <button class="button button-outline">Filter</button>
+                <button class="button button-primary">Export</button>
+              </div>
+            </div>
+            <div class="filters">
+              <div class="filter-item">
+                <span class="filter-label">Department:</span>
+                <select class="select">
+                  <option>All Departments</option>
+                  <option>Computer Science</option>
+                  <option>Information Technology</option>
+                  <option>Information Systems</option>
+                </select>
+              </div>
+              <div class="filter-item">
+                <span class="filter-label">View:</span>
+                <select class="select">
+                  <option>By Teaching Hours</option>
+                  <option>By Course Count</option>
+                  <option>By Student Count</option>
+                </select>
+              </div>
+            </div>
+            <div class="chart-container">
+              <!-- Placeholder for chart - would be replaced with actual chart in production -->
+              <div style="width: 100%; height: 100%; background-color: #f1f5f9; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #64748b;">
+                Faculty Workload Chart
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Scheduling Conflicts</h3>
+            <div class="card-actions">
+              <button class="button button-primary">Auto-Resolve All</button>
+            </div>
+          </div>
+          
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Details</th>
+                  <th>Impact</th>
+                  <th>AI Solution</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Room Conflict</td>
+                  <td>IT Lab 3 double-booked on Mon, 1-4 PM</td>
+                  <td><span class="tag tag-blue">2 Classes</span> <span class="tag tag-blue">65 Students</span></td>
+                  <td>Reassign CS405 to IT Lab 1</td>
+                  <td><span class="status status-warning">Pending</span></td>
+                  <td>
+                    <button class="button button-outline">Resolve</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Faculty Overload</td>
+                  <td>Prof. Santos assigned 28 hours (max: 24)</td>
+                  <td><span class="tag tag-blue">1 Faculty</span> <span class="tag tag-blue">2 Courses</span></td>
+                  <td>Reassign IS301 to Prof. Garcia</td>
+                  <td><span class="status status-warning">Pending</span></td>
+                  

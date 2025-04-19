@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIdentiPlant - AI-Powered Plant Identification & Care System</title>
+    <style>
+        :root {
+            --primary: #05a964;
+            --primary-dark: #048a51;
+            --primary-light: #7fdaa8;
+            --secondary: #f9a826;
+            --background: #f7f9fc;
+            --white: #ffffff;
+            --dark: #333333;
+            --gray: #888888;
+            --light-gray: #eeeeee;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--background);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-left: 25px;
+        }
+        
+        .nav-link {
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 0;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-toggle {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 80px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            color: var(--white);
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--secondary);
+            color: var(--white);
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--white);
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+        
+        /* Upload Section */
+        .upload-section {
+            padding: 80px 0;
+            background-color: var(--primary-light);
+        }
+        
+        .upload-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .upload-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: var(--primary-dark);
+        }
+        
+        .upload-box {
+            border: 2px dashed var(--primary-light);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .upload-box:hover {
+            background-color: rgba(5, 169, 100, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        .upload-hint {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Assistant Section */
+        .assistant {
+            padding: 80px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .assistant-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .assistant-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+        
+        .assistant-chat {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            padding: 15px 20px;
+            background-color: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .chat-messages {
+            padding: 20px;
+            height: 300px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            position: relative;
+        }
+        
+        .bot-message {
+            background-color: var(--light-gray);
+            border-bottom-left-radius: 5px;
+            float: left;
+            clear: both;
+        }
+        
+        .user-message {
+            background-color: var(--primary-light);
+            color: var(--dark);
+            border-bottom-right-radius: 5px;
+            float: right;
+            clear: both;
+        }
+        
+        .chat-input {
+            padding: 15px;
+            display: flex;
+            border-top: 1px solid var(--light-gray);
+            background-color: var(--white);
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            font-size: 15px;
+            outline: none;
+        }
+        
+        .chat-input input:focus {
+            border-color: var(--primary-light);
+        }
+        
+        .send-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .send-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background-color: #f2f7f4;
+        }
+        
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            background-color: var(--primary);
+            color: var(--white);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .step-title {
+            margin: 10px 0 15px;
+            color: var(--primary-dark);
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+        }
+        
+        .testimonial-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            padding: 20px 0;
+            margin: 0 -20px;
+            padding: 0 20px;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .testimonial-slider::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        .testimonial-card {
+            scroll-snap-align: start;
+            min-width: 300px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            flex: 1;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            text-align: center;
+        }
+        
+        .cta-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .cta-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-text {
+            margin-bottom: 30px;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #1a242f;
+            color: #b8c5d2;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #2d3b48;
+            font-size: 14px;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                clip-path: circle(0% at top right);
+                transition: clip-path 0.5s ease-in-out;
+            }
+            
+            .nav-links.active {
+                clip-path: circle(140% at top right);
+            }
+            
+            .nav-item {
+                margin: 10px 0;
+            }
+            
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .assistant {
+                flex-direction: column;
+            }
+            
+            .steps {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .step {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <span class="logo-icon">🌱</span>
+                    AIdentiPlant
+                </a>
+                <button class="mobile-toggle">☰</button>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+                    <li class="nav-item"><a href="#identify" class="nav-link">Identify</a></li>
+                    <li class="nav-item"><a href="#assistant" class="nav-link">Assistant</a></li>
+                    <li class="nav-item"><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">AI-Powered Plant Identification & Care System</h1>
+                <p class="hero-subtitle">Empowering farmers with intelligent solutions for sustainable agriculture and improved crop management</p>
+                <div class="hero-buttons">
+                    <a href="#identify" class="btn">Identify Plant</a>
+                    <a href="#assistant" class="btn btn-outline">Ask Assistant</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Our Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">Plant Identification</h3>
+                    <p>Accurately identify lowland crops using advanced AI algorithms trained on diverse datasets.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🦠</div>
+                    <h3 class="feature-title">Disease Detection</h3>
+                    <p>Early detection of plant diseases to prevent crop losses and improve agricultural yields.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💧</div>
+                    <h3 class="feature-title">Care Recommendations</h3>
+                    <p>Receive personalized care advice based on plant type and environmental conditions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3 class="feature-title">AI Plant Assistant</h3>
+                    <p>Get real-time answers to your plant-related questions from our intelligent chatbot.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌡️</div>
+                    <h3 class="feature-title">Climate Adaptation</h3>
+                    <p>Adaptive care recommendations based on climate data for optimal plant growth.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🌾</div>
+                    <h3 class="feature-title">Community Forum</h3>
+                    <p>Connect with farmers, researchers and plant enthusiasts to share knowledge.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section class="upload-section" id="identify">
+        <div class="container">
+            <div class="upload-container">
+                <h2 class="upload-title">Identify Your Plant</h2>
+                <div class="upload-box">
+                    <div class="upload-icon">📷</div>
+                    <p class="upload-text">Click to upload an image or drag and drop here</p>
+                    <p class="upload-hint">For best results, use clear images in good lighting</p>
+                </div>
+                <button class="btn" style="width: 100%;">Upload Image</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assistant Section -->
+    <section id="assistant">
+        <div class="container">
+            <div class="assistant">
+                <div class="assistant-info">
+                    <h2 class="assistant-title">Plant Assistant</h2>
+                    <p>Our AI-powered chatbot is here to help with all your plant-related questions. Ask about plant care, disease symptoms, growing conditions, or any other agricultural queries.</p>
+                    <p style="margin: 20px 0;">The assistant combines deep learning technology with comprehensive plant databases to provide accurate and helpful information tailored to your specific needs.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+                <div class="assistant-chat">
+                    <div class="chat-header">
+                        <span class="chat-icon">🤖</span>
+                        <h3 class="chat-title">Plant Assistant</h3>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="message bot-message">
+                            Hello! I'm your Plant Assistant. How can I help you with your plants today?
+                        </div>
+                        <div class="message user-message">
+                            My tomato plant leaves are turning yellow. What could be wrong?
+                        </div>
+                        <div class="message bot-message">
+                            Yellow leaves on tomato plants can indicate several issues: nutrient deficiencies (particularly nitrogen), overwatering, or pest problems. Could you describe when you noticed this and any other symptoms?
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Type your message...">
+                        <button class="send-btn">➤</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Upload Image</h3>
+                    <p>Take a clear photo of your plant or plant issue and upload it to our system</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">AI Analysis</h3>
+                    <p>Our AI algorithms analyze the image and identify the plant species and potential diseases</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Get Results</h3>
+                    <p>Receive detailed identification results and customized care recommendations</p>
+                </div>
+            </div>
+            <div class="steps" style="margin-top: 30px;">
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Ask Questions</h3>
+                    <p>Use our Plant Assistant to get more specific information or advice</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3 class="step-title">Apply Care Tips</h3>
+                    <p>Follow the recommendations to improve plant health and productivity</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <h3 class="step-title">Track Progress</h3>
+                    <p>Monitor your plant's improvement and update our system for continued support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Farmers Are Saying</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"AIdentiPlant helped me identify a fungal infection on my ampalaya crops early, saving me from significant losses. The care recommendations were practical and effective."</p>
+                    <p class="testimonial-author">- Maria Santos, Nueva Ecija</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As someone new to farming, the Plant Assistant has been invaluable. I can ask questions anytime and get reliable information tailored to lowland crops."</p>
+                    <p class="testimonial-author">- Juan Cruz, Batangas</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The community forum connected me with experienced farmers who shared their knowledge about organic pest control methods. This platform is revolutionizing agricultural knowledge sharing."</p>
+                    <p class="testimonial-author">- Roberto Reyes, UPLB</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-container">
+                <h2 class="cta-title">Ready to Transform Your Agricultural Practices?</h2>
+                <p class="cta-text">Join thousands of farmers and gardeners who are already benefiting from our AI-powered plant care system.</p>
+                <a href="#" class="btn">Get Started Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>AIdentiPlant</h3>
+                    <p>AI-Powered Plant Identification and Care Assistance System for Lowland Crops</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Features</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Plant Identification</a></li>
+                        <li><a href="#">Disease Detection</a></li>
+                        <li><a href="#">Care Recommendations</a></li>
+                        <li><a href="#">AI Assistant</a></li>
+                        <li><a href="#">Community Forum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Plant Care Guide</a></li>
+                        <li><a href="#">Common Diseases</a></li>
+                        <li><a href="#">Seasonal Planting Tips</a></li>
+                        <li><a href="#">Research Publications</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 AIdentiPlant - BSIT3F/IT42. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        document.querySelector('.mobile-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

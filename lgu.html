@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart LGU Program Enrollment System</title>
+    <style>
+        /* Custom properties */
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --secondary: #64748b;
+            --accent: #8b5cf6;
+            --background: #f8fafc;
+            --dark: #0f172a;
+            --light: #ffffff;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--background);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        /* Utilities */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .gap-8 {
+            gap: 2rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-8 {
+            margin-bottom: 2rem;
+        }
+
+        .mb-16 {
+            margin-bottom: 4rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .mt-8 {
+            margin-top: 2rem;
+        }
+
+        .p-4 {
+            padding: 1rem;
+        }
+
+        .p-8 {
+            padding: 2rem;
+        }
+
+        .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .py-4 {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .py-8 {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .py-16 {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+
+        .rounded {
+            border-radius: var(--border-radius);
+        }
+
+        .shadow {
+            box-shadow: var(--shadow);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .text-white {
+            color: var(--light);
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        /* Components */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 1.5rem 0;
+            font-weight: 500;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        /* Main sections */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Hero section */
+        .hero {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        /* Programs */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .program-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .program-card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .program-card-footer {
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+
+        /* Steps */
+        .steps {
+            counter-reset: step;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 3.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step:before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            left: 1.25rem;
+            top: 2.5rem;
+            transform: translateX(-50%);
+            height: calc(100% - 0.5rem);
+            width: 2px;
+            background-color: #e5e7eb;
+        }
+
+        /* FAQ */
+        .accordion-item {
+            border: 1px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 1.25rem;
+            background-color: var(--light);
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-body {
+            padding: 1.25rem;
+            border-top: 1px solid #e5e7eb;
+            background-color: #f9fafb;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: #94a3b8;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-heading {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .footer-links a {
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-divider {
+            margin: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Language selector */
+        .language-selector {
+            position: relative;
+        }
+
+        .language-selector select {
+            appearance: none;
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid #e5e7eb;
+            background-color: var(--light);
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        .language-selector::after {
+            content: '▼';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            font-size: 0.75rem;
+        }
+
+        /* Chatbot */
+        .chatbot {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.05);
+            background-color: var(--primary-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .mobile-menu-toggle {
+                display: block;
+                cursor: pointer;
+                font-size: 1.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--light);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-link {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-actions {
+                margin-top: 1rem;
+                flex-direction: column;
+                width: 100%;
+                padding: 0 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 2.25rem;
+            }
+
+            .programs-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-actions {
+                flex-direction: column;
+            }
+            
+            .section {
+                padding: 3rem 0;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container flex justify-between items-center py-4">
+            <a href="#" class="logo">
+                <span class="logo-dot"></span>
+                Smart LGU
+            </a>
+            
+            <div class="mobile-menu-toggle">☰</div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">Programs</a>
+                <a href="#" class="nav-link">Apply</a>
+                <a href="#" class="nav-link">Check Status</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+            
+            <div class="flex items-center gap-4">
+                <div class="language-selector">
+                    <select>
+                        <option>English</option>
+                        <option>Tagalog</option>
+                        <option>Kapampangan</option>
+                    </select>
+                </div>
+                
+                <a href="#" class="btn btn-outline py-2">Login</a>
+                <a href="#" class="btn py-2">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Smart LGU Program Enrollment System</h1>
+                <p class="hero-subtitle">A transparent and efficient platform for managing social assistance program enrollment with AI-powered verification</p>
+                <div class="hero-actions">
+                    <a href="#" class="btn btn-lg">Apply Now</a>
+                    <a href="#" class="btn btn-outline btn-lg">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Innovative Features</h2>
+                <p class="text-secondary">Empowering communities through smart governance</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="feature-icon">🔍</div>
+                        <h3>AI Name Verification</h3>
+                        <p>Advanced algorithms that verify identities and detect potential duplicates across multiple assistance programs.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="feature-icon">🌐</div>
+                        <h3>Multilingual Support</h3>
+                        <p>Access platform in English, Tagalog, or Kapampangan with AI-powered chatbot assistance in your preferred language.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Secure Data Protection</h3>
+                        <p>Compliant with Data Privacy Act of 2012 (RA 10173) ensuring your personal information remains protected.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="feature-icon">📱</div>
+                        <h3>Real-time Status Updates</h3>
+                        <p>Track your application progress with instant notifications at every stage of the verification process.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="feature-icon">🏘️</div>
+                        <h3>Barangay-Level Support</h3>
+                        <p>Authorized local personnel available to assist community members with limited digital access.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="feature-icon">✅</div>
+                        <h3>Smart Eligibility Assessment</h3>
+                        <p>Automated evaluation of program eligibility based on predefined government and LGU criteria.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="section" style="background-color: #f1f5f9;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Available Programs</h2>
+                <p class="text-secondary">Discover assistance opportunities for eligible citizens</p>
+            </div>
+            
+            <div class="programs-grid">
+                <div class="card program-card">
+                    <div class="card-body program-card-body">
+                        <h3 class="text-primary">TUPAD Program</h3>
+                        <p class="mb-4">Tulong Panghanapbuhay sa Ating Disadvantaged/Displaced Workers (TUPAD) provides emergency employment for displaced workers, underemployed and seasonal workers.</p>
+                        
+                        <div class="mb-4">
+                            <span class="badge">DOLE</span>
+                            <span class="badge">Employment</span>
+                            <span class="badge">Emergency</span>
+                        </div>
+                        
+                        <div class="program-card-footer">
+                            <a href="#" class="btn">Apply for TUPAD</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card program-card">
+                    <div class="card-body program-card-body">
+                        <h3 class="text-primary">City Scholarship Program</h3>
+                        <p class="mb-4">Educational financial assistance for qualified and deserving students pursuing higher education in accredited colleges and universities.</p>
+                        
+                        <div class="mb-4">
+                            <span class="badge">Education</span>
+                            <span class="badge">Financial Aid</span>
+                            <span class="badge">Students</span>
+                        </div>
+                        
+                        <div class="program-card-footer">
+                            <a href="#" class="btn">Apply for Scholarship</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card program-card">
+                    <div class="card-body program-card-body">
+                        <h3 class="text-primary">AICS Program</h3>
+                        <p class="mb-4">Assistance to Individuals in Crisis Situations (AICS) provides immediate financial or material assistance to individuals facing emergency situations.</p>
+                        
+                        <div class="mb-4">
+                            <span class="badge">Crisis Support</span>
+                            <span class="badge">Emergency</span>
+                            <span class="badge">Financial Aid</span>
+                        </div>
+                        
+                        <div class="program-card-footer">
+                            <a href="#" class="btn">Apply for AICS</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Application Process</h2>
+                <p class="text-secondary">Simple steps to access assistance programs</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <h3>Register an Account</h3>
+                    <p>Create your secure account with valid government ID and basic personal information to access the platform.</p>
+                </div>
+                
+                <div class="step">
+                    <h3>Complete Your Profile</h3>
+                    <p>Fill in demographic details, upload required documents, and provide necessary information for eligibility assessment.</p>
+                </div>
+                
+                <div class="step">
+                    <h3>Select Program & Submit Application</h3>
+                    <p>Choose the assistance program that meets your needs and submit your application with all required information.</p>
+                </div>
+                
+                <div class="step">
+                    <h3>Verification Process</h3>
+                    <p>Our AI system verifies your identity, checks for duplications across programs, and assesses your eligibility based on program criteria.</p>
+                </div>
+                
+                <div class="step">
+                    <h3>Receive Notification</h3>
+                    <p>Get updates on your application status and follow instructions for program enrollment if approved.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" style="background-color: #f1f5f9;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p class="text-secondary">Find answers to common inquiries</p>
+            </div>
+            
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>What documents do I need to prepare?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-body">
+                        <p>You will need a valid government-issued ID (such as PhilSys ID, Passport, Driver's License), proof of residency in San Fernando, Pampanga (utility bill or barangay certificate), and program-specific documents that will be listed during the application process.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>How does the AI verification system work?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-body">
+                        <p>Our AI system uses advanced name matching algorithms and natural language processing to verify identities, detect similar names and potential duplicates across different programs. This helps ensure that assistance is distributed fairly and prevents multiple enrollments that violate program guidelines.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Can I apply for multiple assistance programs?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-body">
+                        <p>Yes, you can apply for multiple programs, but our system will verify your eligibility based on each program's specific requirements and regulations regarding multiple benefits. Some programs may have restrictions on receiving simultaneous assistance.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>What if I don't have internet access?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-body">
+                        <p>We offer barangay-level assisted registration for residents with limited digital access. Visit your local barangay hall where authorized personnel can help you complete the application process using their facilities.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>How long does the verification process take?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-body">
+                        <p>The initial AI-powered verification typically takes 24-48 hours. After automated verification, LGU staff may conduct additional manual checks when necessary, which could take 3-5 business days. You will receive real-time updates throughout the process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section" style="background: linear-gradient(to right, var(--primary), var(--accent)); color: white;">
+        <div class="container text-center">
+            <h2 class="mb-4">Ready to Get Started?</h2>
+            <p class="mb-8 text-lg" style="max-width: 600px; margin-left: auto; margin-right: auto; opacity: 0.9;">Register today to access social assistance programs designed to support our community members in need.</p>
+            <a href="#" class="btn btn-lg" style="background-color: white; color: var(--primary);">Create Your Account</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 class="footer-heading">Smart LGU</h3>
+                    <p>A web application for transparent and efficient management of social assistance program enrollment with AI-powered verification.</p>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Programs</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">TUPAD Program</a></li>
+                        <li><a href="#">City Scholarship</a></li>
+                        <li><a href="#">AICS Program</a></li>
+                        <li><a href="#">View All Programs</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Document Guidelines</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">City Hall, San Fernando, Pampanga</a></li>
+                        <li><a href="#">info@smartlgu.gov
