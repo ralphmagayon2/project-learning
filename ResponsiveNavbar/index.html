@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Responsive Website</title>
+</head>
+<body>
+
+    <button id="open-sidebar-button" onclick="openSidebar()" aria-label="open sidebar" aria-expanded="false" aria-controls="navbar">
+        <img src="menu_40dp_C9C9C9_FILL0_wght300_GRAD0_opsz40.svg" alt="">
+    </button>
+
+    <nav id="navbar">
+        <ul>
+            <li><button id="close-sidebar-button" onclick="closeSidebar()" aria-label="close sidebar">
+                <img src="close_40dp_C9C9C9_FILL0_wght300_GRAD0_opsz40.svg" alt="">
+            </button></li>
+            <li class="home-li"><a class="active-link" aria-current="page" href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a class="accent-link" href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+    <div id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+    <main>
+        <h1>Accessible Navbar</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, molestiae accusamus! Reprehenderit dolor nihil, magni dicta tempora provident laborum! Voluptatum laudantium ratione, repudiandae aut sit assumenda alias dicta enim culpa.</p>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>
